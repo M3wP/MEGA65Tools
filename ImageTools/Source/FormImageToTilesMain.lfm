@@ -1,0 +1,156 @@
+object ImageToTilesMainForm: TImageToTilesMainForm
+  Left = 449
+  Height = 325
+  Top = 316
+  Width = 370
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Image To Tiles'
+  ClientHeight = 325
+  ClientWidth = 370
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCreate = FormCreate
+  LCLVersion = '1.4.2.0'
+  object Label1: TLabel
+    Left = 8
+    Height = 13
+    Top = 13
+    Width = 70
+    Caption = 'Source Image:'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 8
+    Height = 13
+    Top = 109
+    Width = 46
+    Caption = 'Progress:'
+    ParentColor = False
+  end
+  object Label3: TLabel
+    Left = 100
+    Height = 13
+    Top = 130
+    Width = 12
+    Caption = '---'
+    ParentColor = False
+  end
+  object Label4: TLabel
+    Left = 202
+    Height = 13
+    Top = 130
+    Width = 12
+    Caption = '---'
+    ParentColor = False
+  end
+  object Label5: TLabel
+    Left = 100
+    Height = 13
+    Top = 13
+    Width = 94
+    Caption = 'Background Colour:'
+    ParentColor = False
+  end
+  object Button1: TButton
+    Left = 100
+    Height = 25
+    Top = 48
+    Width = 75
+    Action = ActSourceOpen
+    TabOrder = 0
+  end
+  object ProgressBar1: TProgressBar
+    Left = 99
+    Height = 17
+    Top = 107
+    Width = 263
+    Smooth = True
+    TabOrder = 1
+  end
+  object Button2: TButton
+    Left = 181
+    Height = 25
+    Top = 48
+    Width = 75
+    Action = ActSourceClear
+    TabOrder = 2
+  end
+  object Button3: TButton
+    Left = 287
+    Height = 25
+    Top = 48
+    Width = 75
+    Action = ActSourceProcess
+    TabOrder = 3
+  end
+  object ColorBox1: TColorBox
+    Left = 217
+    Height = 22
+    Top = 10
+    Width = 145
+    Style = [cbStandardColors, cbCustomColor, cbPrettyNames, cbCustomColors]
+    ItemHeight = 16
+    TabOrder = 4
+  end
+  object Label6: TLabel
+    Left = 8
+    Height = 13
+    Top = 184
+    Width = 38
+    Caption = 'Output:'
+    ParentColor = False
+  end
+  object Button4: TButton
+    Left = 100
+    Height = 25
+    Top = 176
+    Width = 75
+    Action = ActOutputSave
+    TabOrder = 5
+  end
+  object OpenDialog1: TOpenDialog
+    Title = 'Select Source Image...'
+    DefaultExt = '.png'
+    Filter = 'PNG Images (*.png)|*.png|Bitmap Images (*.bmp)|*.bmp|JPEG Images (*.jpg)|*.jpg|Any File (*.*)|*.*'
+    Options = [ofReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
+    left = 332
+    top = 36
+  end
+  object ActionList1: TActionList
+    left = 332
+    top = 4
+    object ActSourceOpen: TAction
+      Category = 'Source'
+      Caption = 'Open...'
+      OnExecute = ActSourceOpenExecute
+    end
+    object ActSourceClear: TAction
+      Category = 'Source'
+      Caption = 'Clear'
+      Enabled = False
+      OnExecute = ActSourceClearExecute
+    end
+    object ActSourceProcess: TAction
+      Category = 'Source'
+      Caption = 'Process'
+      Enabled = False
+      OnExecute = ActSourceProcessExecute
+    end
+    object ActOutputSave: TAction
+      Category = 'Output'
+      Caption = 'Save...'
+      Enabled = False
+      OnExecute = ActOutputSaveExecute
+    end
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = '.v4t'
+    Filter = 'VIC-IV Tile Image (*.v4t)|*.v4t|Any File (*.*)|*.*'
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofExtensionDifferent, ofPathMustExist, ofEnableSizing, ofViewDetail]
+    left = 332
+    top = 144
+  end
+end

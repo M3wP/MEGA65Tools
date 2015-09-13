@@ -1,0 +1,85 @@
+object ImageViewMainForm: TImageViewMainForm
+  Left = 733
+  Height = 597
+  Top = 225
+  Width = 637
+  Caption = 'MEGA65 Image Viewer'
+  ClientHeight = 577
+  ClientWidth = 637
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Menu = MainMenu1
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  LCLVersion = '1.4.2.0'
+  object ScrollBox1: TScrollBox
+    Left = 0
+    Height = 577
+    Top = 0
+    Width = 637
+    HorzScrollBar.Page = 105
+    HorzScrollBar.Tracking = True
+    VertScrollBar.Page = 105
+    VertScrollBar.Tracking = True
+    Align = alClient
+    BorderStyle = bsNone
+    ClientHeight = 577
+    ClientWidth = 637
+    TabOrder = 0
+    object Image1: TImage
+      Left = 0
+      Height = 105
+      Top = 0
+      Width = 105
+      AutoSize = True
+      Proportional = True
+    end
+  end
+  object MainMenu1: TMainMenu
+    left = 552
+    top = 8
+    object File1: TMenuItem
+      Caption = '&File'
+      object Open1: TMenuItem
+        Action = ActFileOpen
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object Exit1: TMenuItem
+        Action = ActFileExit
+      end
+    end
+    object View1: TMenuItem
+      Caption = '&View'
+    end
+    object Help1: TMenuItem
+      Caption = '&Help'
+    end
+  end
+  object ActionList1: TActionList
+    left = 552
+    top = 52
+    object ActFileOpen: TAction
+      Category = 'File'
+      Caption = '&Open...'
+      OnExecute = ActFileOpenExecute
+      ShortCut = 16463
+    end
+    object ActFileExit: TAction
+      Category = 'File'
+      Caption = 'E&xit'
+      OnExecute = ActFileExitExecute
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    Title = 'Open Image...'
+    DefaultExt = '.v4t'
+    Filter = 'VIC-IV Tile Images (*.v4t)|*.v4t|Any File (*.*)|*.*'
+    Options = [ofReadOnly, ofPathMustExist, ofFileMustExist]
+    left = 552
+    top = 100
+  end
+end

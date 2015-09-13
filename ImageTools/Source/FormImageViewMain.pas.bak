@@ -1,0 +1,328 @@
+unit FormImageViewMain;
+
+interface
+
+uses
+	Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+	System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls,
+	Vcl.Menus, System.Actions, Vcl.ActnList, ImageToTilesTypes;
+
+type
+	TImageViewMainForm = class(TForm)
+		MainMenu1: TMainMenu;
+		ActionList1: TActionList;
+		OpenDialog1: TOpenDialog;
+		File1: TMenuItem;
+		View1: TMenuItem;
+		Help1: TMenuItem;
+		ScrollBox1: TScrollBox;
+		Image1: TImage;
+		ActFileOpen: TAction;
+		ActFileExit: TAction;
+		Open1: TMenuItem;
+		N1: TMenuItem;
+		Exit1: TMenuItem;
+		procedure ActFileOpenExecute(Sender: TObject);
+		procedure ActFileExitExecute(Sender: TObject);
+		procedure FormCreate(Sender: TObject);
+		procedure FormDestroy(Sender: TObject);
+	private
+		FHeader: TV4TImgHeader;
+		FTiles: TTileList;
+		FScreen: TTileMap;
+		FPalette: TPaletteMap;
+		FBackground: TRGBPixel;
+
+	protected
+		procedure DoRenderBitmap;
+
+	public
+		{ Public declarations }
+	end;
+
+var
+	ImageViewMainForm: TImageViewMainForm;
+
+implementation
+
+{$R *.dfm}
+
+procedure TImageViewMainForm.ActFileExitExecute(Sender: TObject);
+	begin
+	Application.Terminate;
+	end;
+
+procedure TImageViewMainForm.ActFileOpenExecute(Sender: TObject);
+	var
+	i: Integer;
+	f: TFileStream;
+
+	procedure DoReadTiles(AFile: TFileStream; ACount: Integer);
+		var
+		i,
+		j: Integer;
+		pr: TTilePalDataRaw;
+		t: TTile;
+
+		begin
+		for i:= 0 to ACount - 1 do
+			begin
+			t:= TTile.Create;
+
+			AFile.Read(pr[0], SizeOf(TTilePalDataRaw));
+			for j:= 0 to High(TTilePalDataRaw) do
+				if  pr[j] = $FF then
+					t.PalData[j]:= VAL_CLR_TILEPAL_FOREGD
+				else if pr[j] = $00 then
+					t.PalData[j]:= VAL_CLR_TILEPAL_BACKGD
+				else
+					t.PalData[j]:= pr[j] - 1;
+
+			t.Foreground:= VAL_CLR_TILEPAL_UNKNWN;
+
+			FTiles.Add(t);
+			end;
+		end;
+
+	procedure DoReadScreenTiles(AFile: TFileStream; ARowCount, AColCount: Integer);
+		var
+		i,
+		j: Integer;
+		w: Word;
+
+		begin
+		for i:= 0 to ARowCount - 1 do
+			for j:= 0 to AColCount - 1 do
+				begin
+				AFile.Read(w, 2);
+
+				if  w >= FTiles.Count then
+					raise Exception.Create('Invalid tile number in screen map.');
+
+				FScreen[i, j].Tile:= FTiles[w];
+				end;
+		end;
+
+	procedure DoReadScreenColours(AFile: TFileStream; ARowCount, AColCount: Integer);
+		var
+		i,
+		j: Integer;
+		b: Byte;
+
+		begin
+		for i:= 0 to ARowCount - 1 do
+			for j:= 0 to AColCount - 1 do
+				begin
+				AFile.Read(b, 1);
+				FScreen[i, j].ForeGnd:= b - 1;
+
+				AFile.Read(b, 1);
+				FScreen[i, j].FlipX:= (b and $80) <> 0;
+				FScreen[i, j].FlipY:= (b and $40) <> 0;
+				end;
+		end;
+
+	function  DoSwapNybbles(AData: Byte): Byte;
+		begin
+		Result:= (AData and $F0) shr 4;
+		Result:= Result or ((AData and $0F) shl 4);
+		end;
+
+	procedure DoReadPalColour(AFile: TFileStream; var AColour: TRGBPixel);
+		var
+		b: Byte;
+
+		begin
+		AFile.Read(b, 1);
+		AColour.R:= DoSwapNybbles(b);
+
+		AFile.Read(b, 1);
+		AColour.G:= DoSwapNybbles(b);
+
+		AFile.Read(b, 1);
+		AColour.B:= DoSwapNybbles(b);
+		end;
+
+	procedure DoReadPalette(AFile: TFileStream; ACount: Integer);
+		var
+		i: Integer;
+
+		begin
+		for i:= 0 to ACount - 1 do
+			DoReadPalColour(AFile, FPalette[i].RGB);
+		end;
+
+	begin
+	if  OpenDialog1.Execute then
+		try
+			f:= TFileStream.Create(OpenDialog1.FileName, fmOpenRead);
+			try
+				f.Read(FHeader, SizeOf(TV4TImgHeader));
+
+				if  (FHeader.Magic <> LIT_TOK_V4TLIMG_MAGICI)
+				or  (FHeader.Version <> $0100)
+				or  (FHeader.Format <> $01) then
+					begin
+					ShowMessage('Invalid file format.');
+					Exit;
+					end;
+
+				DoReadTiles(f, FHeader.TileCount);
+
+				SetLength(FScreen, FHeader.RowCount);
+				for i:= 0 to FHeader.RowCount - 1 do
+					SetLength(FScreen[i], FHeader.ColCount);
+
+				DoReadScreenTiles(f, FHeader.RowCount, FHeader.ColCount);
+				DoReadScreenColours(f, FHeader.RowCount, FHeader.ColCount);
+
+				DoReadPalColour(f, FBackground);
+
+				i:= (f.Size - f.Position) div 3;
+				SetLength(FPalette, i);
+
+				DoReadPalette(f, i);
+
+				finally
+				f.Free;
+				end;
+
+			DoRenderBitmap;
+
+			except
+			ShowMessage('Failed to open image file!');
+			end;
+	end;
+
+procedure TImageViewMainForm.DoRenderBitmap;
+	var
+	i,
+	j,
+	k,
+	tx,
+	ty: Integer;
+	bm: TBitmap;
+	l: PRGBPixel;
+	c: TRGBPixel;
+	t: TTile;
+	pd: TTilePalData;
+
+	procedure DoFlipDataX(var AData: TTilePalData);
+		var
+		i,
+		j: Integer;
+		t: TPaletteColour;
+		c,
+		s: PPaletteColour;
+
+		begin
+		for i:= 0 to VAL_SIZ_TILEPIX_LENGTH - 1 do
+			begin
+			c:= @AData[i * VAL_SIZ_TILEPIX_LENGTH];
+			s:= @AData[(i + 1) * VAL_SIZ_TILEPIX_LENGTH - 1];
+
+			for j:= 0 to (VAL_SIZ_TILEPIX_LENGTH div 2) - 1 do
+				begin
+				t:= s^;
+
+				s^:= c^;
+				c^:= t;
+
+				Inc(c);
+				Dec(s);
+				end;
+			end;
+		end;
+
+	procedure DoFlipDataY(var AData: TTilePalData);
+		var
+		i,
+		j,
+		k: Integer;
+		t: TPaletteColour;
+		c,
+		s: PPaletteColour;
+
+		begin
+		for i:= 0 to (VAL_SIZ_TILEPIX_LENGTH div 2) - 1 do
+			begin
+			for j:= 0 to VAL_SIZ_TILEPIX_LENGTH - 1 do
+				begin
+				k:= i * VAL_SIZ_TILEPIX_LENGTH + j;
+				c:= @AData[k];
+
+				k:= ((VAL_SIZ_TILEPIX_LENGTH - 1) - i) * VAL_SIZ_TILEPIX_LENGTH + j;
+				s:= @AData[k];
+
+				t:= s^;
+
+				s^:= c^;
+				c^:= t;
+				end;
+			end;
+		end;
+
+	begin
+	bm:= TBitmap.Create;
+	try
+		bm.PixelFormat:= pf24bit;
+		bm.Width:= FHeader.ColCount * VAL_SIZ_TILEPIX_LENGTH;
+		bm.Height:= FHeader.RowCount * VAL_SIZ_TILEPIX_LENGTH;
+
+		for ty:= 0 to FHeader.RowCount - 1 do
+			for tx:= 0 to FHeader.ColCount - 1 do
+				begin
+				t:= FScreen[ty, tx].Tile;
+				k:= 0;
+
+				pd:= t.PalData;
+
+				if  FScreen[ty, tx].FlipX then
+					DoFlipDataX(pd);
+				if  FScreen[ty, tx].FlipY then
+					DoFlipDataY(pd);
+
+				for i:= 0 to VAL_SIZ_TILEPIX_LENGTH - 1 do
+					begin
+					l:= bm.ScanLine[ty * VAL_SIZ_TILEPIX_LENGTH + i];
+					Inc(l, tx * VAL_SIZ_TILEPIX_LENGTH);
+
+					for j:= 0 to VAL_SIZ_TILEPIX_LENGTH - 1 do
+						begin
+						if  pd[k] = VAL_CLR_TILEPAL_BACKGD then
+							c:= FBackground
+						else if pd[k] = VAL_CLR_TILEPAL_FOREGD then
+							c:= FPalette[FScreen[ty, tx].ForeGnd].RGB
+						else
+							c:= FPalette[pd[k]].RGB;
+
+						l^.R:= c.R;
+						l^.G:= c.G;
+						l^.B:= c.B;
+
+						Inc(l);
+						Inc(k);
+						end;
+					end;
+				end;
+
+		finally
+		Image1.Picture.Bitmap.Assign(bm);
+
+		bm.Free;
+		end;
+	end;
+
+procedure TImageViewMainForm.FormCreate(Sender: TObject);
+	begin
+	FTiles:= TTileList.Create;
+	end;
+
+procedure TImageViewMainForm.FormDestroy(Sender: TObject);
+	begin
+//  DoClear;
+
+	FTiles.Free;
+	end;
+
+end.

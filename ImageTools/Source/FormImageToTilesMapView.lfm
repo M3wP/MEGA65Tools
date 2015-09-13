@@ -1,0 +1,31 @@
+object ImageToTilesMapViewForm: TImageToTilesMapViewForm
+  Left = 638
+  Height = 737
+  Top = 188
+  Width = 1116
+  BorderStyle = bsSizeToolWin
+  Caption = 'Tile Map'
+  ClientHeight = 737
+  ClientWidth = 1116
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCreate = FormCreate
+  LCLVersion = '1.4.2.0'
+  object DrawGrid1: TDrawGrid
+    Left = 0
+    Height = 737
+    Top = 0
+    Width = 1116
+    Align = alClient
+    DefaultColWidth = 40
+    DefaultRowHeight = 40
+    ExtendedSelect = False
+    TabOrder = 0
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    OnDrawCell = DrawGrid1DrawCell
+  end
+end

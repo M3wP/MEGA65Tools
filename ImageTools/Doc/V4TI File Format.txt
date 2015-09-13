@@ -1,0 +1,70 @@
+It would be great if you can output MEGA65 VIC-IV screen RAM (in 16-bit mode) +
+tile bank for a scene. Just hard-code using a fixed base tile number for the 
+first tile, and numbering up from there.
+
+In other words:
+
+0. Output some sort of magic value to indicate that it is a MEGA65 full-colour 
+image.
+
+Header fields: 
+
+The string value 'V4TI' (4 bytes ASCII text, LTR)
+Version $0100 as 2 bytes (little endian)
+Format $01 as 1 byte.
+Output the number of tiles in the scene using 2 bytes. 
+Output the number of characters per row using 1 byte. 
+Output the number of rows using 1 byte.  
+Output target horizontal resolution using 2 bytes.
+Output target vertical resolution using 2 bytes.
+
+Output enough $00 bytes so to round it up to the next multiple of 64 bytes.  
+This will ensure that the tiles have proper alignment when loaded into memory, 
+allowing the display routine to just add a fixed offset to each tile number in 
+the screen RAM. It also gives us some extra reserved bytes for future expansion 
+of the file format.
+
+1. have the tiles exported as contiguous 64 byte tiles with the following byte 
+order in each tile:
+
+1 2 3 4 5 6 7 8
+9 10 11 12 13 14 15 16
+...
+57 58 59 60 61 62 63 64
+
+2. Then for each character position on the screen, using the same order as they
+appear on the C64, output two bytes of screen RAM:
+
+byte 1: low 8-bits of tile number
+byte 2: bits 0-4: upper 5 bits of tile number, 
+        bits 5-7: variable width bits: leave 0
+
+(This means you can have upto 8K addressed tiles, but in practice this is only 
+possible in hires/multi-colour mode, not full-colour mode, which would require 
+512KB chipram, which won't be available until the next generation of FPGAs come
+out in a couple of years.)
+
+3. Then for each character position on the screen, using the same order as they
+appear on the C64, output two bytes of colour RAM:
+
+byte 1: foreground colour
+byte 2: bit 7= vertically flipped, 
+        bit 6= horizontally flipped, 
+	bit 5= alpha enable (leave 0), 
+	bit 4= reserved (leave 0), 
+	bits 3-0 = variable height control (leave 0)
+
+
+4. Put 3 x 256 bytes following all the rest of the data.  Red bytes, 
+then Green, then Blue.  Use 23 bit colour: leave bottom bit of red clear, as it
+is supposed to be alpha or something else I can't remember right now. 
+Remember to flip the nybls around, low nybl is high order colour bits, and vice
+versa.
+
+
+It would then be quite easy to load the little header, and then relocate the 
+colour RAM to where it needs to go, add the offset to the tile numbers in 
+screen RAM, point the screen RAM start address to the right address, set the 
+number of characters per screen row correctly, and work out the correct values 
+for the horizontal and vertical zoom registers.  After all that, the image 
+should be displayed on the MEGA65.

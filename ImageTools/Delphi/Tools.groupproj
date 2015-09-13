@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{8E2563C2-BEC9-4865-A2D8-2B8B95DA01A8}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ImageToTiles.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ImageView.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ImageToTiles">
+        <MSBuild Projects="ImageToTiles.dproj"/>
+    </Target>
+    <Target Name="ImageToTiles:Clean">
+        <MSBuild Projects="ImageToTiles.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ImageToTiles:Make">
+        <MSBuild Projects="ImageToTiles.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ImageView">
+        <MSBuild Projects="ImageView.dproj"/>
+    </Target>
+    <Target Name="ImageView:Clean">
+        <MSBuild Projects="ImageView.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ImageView:Make">
+        <MSBuild Projects="ImageView.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ImageToTiles;ImageView"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ImageToTiles:Clean;ImageView:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ImageToTiles:Make;ImageView:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

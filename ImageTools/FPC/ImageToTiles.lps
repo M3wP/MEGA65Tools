@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="17">
+      <Unit0>
+        <Filename Value="ImageToTiles.dpr"/>
+        <IsPartOfProject Value="True"/>
+        <CursorPos Y="5"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="..\Source\FormImageToTilesMain.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ImageToTilesMainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="90"/>
+        <CursorPos X="72" Y="100"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\Source\FormImageToTilesImgView.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ImageToTilesImgViewForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="44" Y="9"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ImageToTilesMapViewForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="3"/>
+        <CursorPos X="37" Y="8"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\Source\ImageToTilesTypes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="4"/>
+        <CursorPos X="19" Y="59"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="C:\development\lazarus\lcl\lclclasses.pp"/>
+        <UnitName Value="LCLClasses"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="11"/>
+        <CursorPos X="10" Y="26"/>
+        <UsageCount Value="10"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\Source\generics.defaults.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="216"/>
+        <CursorPos X="40" Y="231"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="C:\development\lazarus\lcl\graphics.pp"/>
+        <UnitName Value="Graphics"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1369"/>
+        <CursorPos X="28" Y="1386"/>
+        <UsageCount Value="10"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="C:\development\lazarus\lcl\actnlist.pas"/>
+        <UnitName Value="ActnList"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="8"/>
+        <CursorPos X="9" Y="17"/>
+        <UsageCount Value="10"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="C:\development\fpc\rtl\win\sysutils.pp"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="C:\development\fpc\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="79"/>
+        <CursorPos X="56" Y="94"/>
+        <UsageCount Value="10"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="C:\development\lazarus\lcl\graphtype.pp"/>
+        <UnitName Value="GraphType"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="176"/>
+        <CursorPos X="3" Y="195"/>
+        <UsageCount Value="10"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="..\Source\generics.collections.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="C:\development\fpc\rtl\win\wininc\redef.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="637"/>
+        <CursorPos X="21" Y="652"/>
+        <UsageCount Value="10"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="C:\development\fpc\rtl\inc\heap.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="934"/>
+        <CursorPos Y="953"/>
+        <UsageCount Value="10"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="C:\development\lazarus\lcl\include\wincontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="4887"/>
+        <CursorPos Y="4905"/>
+        <UsageCount Value="10"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="C:\development\fpc\rtl\win\wininc\struct.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="240"/>
+        <CursorPos X="6" Y="258"/>
+        <UsageCount Value="10"/>
+      </Unit16>
+    </Units>
+    <JumpHistory Count="27" HistoryIndex="26">
+      <Position1>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="134" TopLine="116"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="169" TopLine="142"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="149" Column="4" TopLine="123"/>
+      </Position3>
+      <Position4>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="69" Column="10" TopLine="77"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="137" TopLine="119"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="203" TopLine="172"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="130" Column="4" TopLine="119"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="149" Column="27" TopLine="150"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="11" Column="2"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="114" Column="17" TopLine="80"/>
+      </Position10>
+      <Position11>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="149" Column="15" TopLine="131"/>
+      </Position11>
+      <Position12>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="26" Column="3" TopLine="8"/>
+      </Position12>
+      <Position13>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="26" Column="3" TopLine="8"/>
+      </Position13>
+      <Position14>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="190" Column="28" TopLine="171"/>
+      </Position14>
+      <Position15>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="14" Column="14"/>
+      </Position15>
+      <Position16>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="218" Column="6" TopLine="186"/>
+      </Position16>
+      <Position17>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="118" Column="3" TopLine="92"/>
+      </Position17>
+      <Position18>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="137" TopLine="112"/>
+      </Position18>
+      <Position19>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="143" Column="27" TopLine="125"/>
+      </Position19>
+      <Position20>
+        <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
+        <Caret Line="63" Column="5" TopLine="52"/>
+      </Position20>
+      <Position21>
+        <Filename Value="ImageToTiles.dpr"/>
+      </Position21>
+      <Position22>
+        <Filename Value="..\Source\FormImageToTilesMain.pas"/>
+        <Caret Line="163" Column="37" TopLine="145"/>
+      </Position22>
+      <Position23>
+        <Filename Value="..\Source\FormImageToTilesMain.pas"/>
+        <Caret Line="12" Column="49"/>
+      </Position23>
+      <Position24>
+        <Filename Value="..\Source\FormImageToTilesMain.pas"/>
+        <Caret Line="660" Column="11" TopLine="627"/>
+      </Position24>
+      <Position25>
+        <Filename Value="..\Source\FormImageToTilesMain.pas"/>
+        <Caret Line="42" Column="26" TopLine="25"/>
+      </Position25>
+      <Position26>
+        <Filename Value="..\Source\FormImageToTilesMain.pas"/>
+        <Caret Line="10" Column="2" TopLine="5"/>
+      </Position26>
+      <Position27>
+        <Filename Value="..\Source\FormImageToTilesMain.pas"/>
+        <Caret Line="634" Column="20" TopLine="611"/>
+      </Position27>
+    </JumpHistory>
+  </ProjectSession>
+  <SkipCheckLCLInterfaces Value="True"/>
+</CONFIG>

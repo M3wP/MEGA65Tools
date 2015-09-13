@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="4">
+      <Unit0>
+        <Filename Value="ImageView.dpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="36" Y="20"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="..\Source\FormImageViewMain.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ImageViewMainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="34"/>
+        <CursorPos X="22" Y="53"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\Source\ImageToTilesTypes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\Source\FPC\generics.collections.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="20"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
+    </Units>
+    <JumpHistory Count="7" HistoryIndex="6">
+      <Position1>
+        <Filename Value="..\Source\FormImageViewMain.pas"/>
+        <Caret Line="320" Column="17" TopLine="294"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\Source\FormImageViewMain.pas"/>
+        <Caret Line="323" TopLine="295"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\Source\FormImageViewMain.pas"/>
+        <Caret Line="13" Column="33"/>
+      </Position3>
+      <Position4>
+        <Filename Value="ImageView.dpr"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\Source\FormImageViewMain.pas"/>
+        <Caret Line="287" Column="19" TopLine="276"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\Source\FormImageViewMain.pas"/>
+        <Caret Line="20" Column="20" TopLine="8"/>
+      </Position6>
+      <Position7>
+        <Filename Value="ImageView.dpr"/>
+        <Caret Line="21" Column="26"/>
+      </Position7>
+    </JumpHistory>
+  </ProjectSession>
+  <SkipCheckLCLInterfaces Value="True"/>
+</CONFIG>
