@@ -1,0 +1,189 @@
+object ManagePaletteForm: TManagePaletteForm
+  Left = 498
+  Height = 375
+  Top = 201
+  Width = 745
+  BorderStyle = bsDialog
+  Caption = 'Manage Palette'
+  ClientHeight = 375
+  ClientWidth = 745
+  DesignTimePPI = 120
+  Position = poMainFormCenter
+  LCLVersion = '2.0.10.0'
+  object DrawGrid1: TDrawGrid
+    Left = 10
+    Height = 350
+    Top = 10
+    Width = 350
+    ColCount = 17
+    DefaultColWidth = 20
+    DefaultRowHeight = 20
+    ExtendedSelect = False
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goSmoothScroll]
+    ParentFont = False
+    RowCount = 17
+    TabOrder = 0
+    OnDrawCell = DrawGrid1DrawCell
+    OnSelectCell = DrawGrid1SelectCell
+  end
+  object ColorBox1: TColorBox
+    Left = 500
+    Height = 26
+    Top = 200
+    Width = 125
+    Style = []
+    OnGetColors = ColorBox1GetColors
+    ItemHeight = 20
+    ParentFont = False
+    TabOrder = 1
+  end
+  object Button1: TButton
+    Left = 640
+    Height = 31
+    Top = 200
+    Width = 94
+    Caption = 'Swap'
+    OnClick = Button1Click
+    ParentFont = False
+    TabOrder = 2
+  end
+  object Label1: TLabel
+    Left = 380
+    Height = 20
+    Top = 208
+    Width = 74
+    Caption = 'Swap With:'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 384
+    Height = 20
+    Top = 258
+    Width = 60
+    Caption = 'Move To:'
+    ParentColor = False
+    ParentFont = False
+  end
+  object ColorBox2: TColorBox
+    Left = 500
+    Height = 26
+    Top = 250
+    Width = 125
+    Style = []
+    OnGetColors = ColorBox1GetColors
+    ItemHeight = 20
+    ParentFont = False
+    TabOrder = 3
+  end
+  object Button2: TButton
+    Left = 640
+    Height = 31
+    Top = 250
+    Width = 94
+    Caption = 'Move'
+    OnClick = Button2Click
+    ParentFont = False
+    TabOrder = 4
+  end
+  object Button3: TButton
+    Left = 640
+    Height = 31
+    Top = 329
+    Width = 94
+    Caption = 'Done'
+    OnClick = Button3Click
+    ParentFont = False
+    TabOrder = 5
+  end
+  object Label3: TLabel
+    Left = 384
+    Height = 20
+    Top = 10
+    Width = 60
+    Caption = 'Selected:'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 500
+    Height = 20
+    Top = 10
+    Width = 69
+    Caption = 'Red Value:'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label5: TLabel
+    Left = 500
+    Height = 20
+    Top = 40
+    Width = 82
+    Caption = 'Green Value:'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label6: TLabel
+    Left = 500
+    Height = 20
+    Top = 70
+    Width = 72
+    Caption = 'Blue Value:'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label7: TLabel
+    Left = 500
+    Height = 20
+    Top = 100
+    Width = 87
+    Caption = 'Usage Count:'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label8: TLabel
+    Left = 640
+    Height = 20
+    Top = 10
+    Width = 44
+    Caption = 'Label8'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label9: TLabel
+    Left = 640
+    Height = 20
+    Top = 40
+    Width = 44
+    Caption = 'Label9'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label10: TLabel
+    Left = 640
+    Height = 20
+    Top = 70
+    Width = 52
+    Caption = 'Label10'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label11: TLabel
+    Left = 640
+    Height = 20
+    Top = 100
+    Width = 52
+    Caption = 'Label11'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Button4: TButton
+    Left = 640
+    Height = 31
+    Top = 139
+    Width = 94
+    Caption = 'Find...'
+    OnClick = Button4Click
+    TabOrder = 6
+  end
+end

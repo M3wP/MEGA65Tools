@@ -1,0 +1,25 @@
+object DebugOutputForm: TDebugOutputForm
+  Left = 718
+  Height = 495
+  Top = 149
+  Width = 496
+  Caption = 'DebugOutputForm'
+  ClientHeight = 495
+  ClientWidth = 496
+  LCLVersion = '1.8.0.3'
+  object Memo1: TMemo
+    Left = 4
+    Height = 487
+    Top = 4
+    Width = 488
+    Align = alClient
+    BorderSpacing.Around = 4
+    Color = clBtnFace
+    Font.Height = -11
+    Font.Name = 'Source Code Pro'
+    ParentFont = False
+    ReadOnly = True
+    ScrollBars = ssAutoVertical
+    TabOrder = 0
+  end
+end

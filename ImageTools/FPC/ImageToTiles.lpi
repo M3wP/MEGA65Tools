@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="9"/>
+    <Version Value="11"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -19,9 +19,6 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
-    <VersionInfo>
-      <StringTable ProductVersion=""/>
-    </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
     </BuildModes>
@@ -29,16 +26,20 @@
       <Version Value="2"/>
     </PublishOptions>
     <RunParams>
-      <local>
-        <FormatVersion Value="1"/>
-      </local>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default"/>
+      </Modes>
     </RunParams>
-    <RequiredPackages Count="1">
+    <RequiredPackages Count="2">
       <Item1>
-        <PackageName Value="LCL"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="8">
       <Unit0>
         <Filename Value="ImageToTiles.dpr"/>
         <IsPartOfProject Value="True"/>
@@ -53,7 +54,9 @@
       <Unit2>
         <Filename Value="..\Source\FormImageToTilesImgView.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="ImageToTilesImgViewForm"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit2>
       <Unit3>
         <Filename Value="..\Source\FormImageToTilesMapView.pas"/>
@@ -66,6 +69,29 @@
         <Filename Value="..\Source\ImageToTilesTypes.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="..\Source\FormSegmentAllocEdit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="SegmentAllocEditForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\Source\formdebugoutput.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DebugOutputForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="FormDebugOutput"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\Source\formmanagepalette.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ManagePaletteForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="FormManagePalette"/>
+      </Unit7>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -86,6 +112,9 @@
       </Optimizations>
     </CodeGeneration>
     <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="False"/>
+      </Debugging>
       <Options>
         <Win32>
           <GraphicApplication Value="True"/>

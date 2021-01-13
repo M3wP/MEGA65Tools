@@ -1,0 +1,176 @@
+object Form1: TForm1
+  Left = 548
+  Height = 300
+  Top = 163
+  Width = 444
+  Caption = 'Form1'
+  ClientHeight = 300
+  ClientWidth = 444
+  DesignTimePPI = 120
+  OnCreate = FormCreate
+  LCLVersion = '2.0.10.0'
+  object Button1: TButton
+    Left = 125
+    Height = 31
+    Top = 10
+    Width = 94
+    Action = ActSourceOpen
+    ParentFont = False
+    TabOrder = 0
+  end
+  object Button2: TButton
+    Left = 226
+    Height = 31
+    Top = 10
+    Width = 94
+    Action = ActSourceClear
+    ParentFont = False
+    TabOrder = 1
+  end
+  object Button3: TButton
+    Left = 340
+    Height = 31
+    Top = 10
+    Width = 94
+    Action = ActSourceProcess
+    ParentFont = False
+    TabOrder = 2
+  end
+  object Label2: TLabel
+    Left = 10
+    Height = 20
+    Top = 142
+    Width = 59
+    Caption = 'Progress:'
+    ParentColor = False
+    ParentFont = False
+  end
+  object ProgressBar1: TProgressBar
+    Left = 125
+    Height = 21
+    Top = 140
+    Width = 308
+    ParentFont = False
+    Smooth = True
+    TabOrder = 3
+  end
+  object Label3: TLabel
+    Left = 125
+    Height = 20
+    Top = 169
+    Width = 18
+    Caption = '---'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 252
+    Height = 20
+    Top = 169
+    Width = 18
+    Caption = '---'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Button4: TButton
+    Left = 125
+    Height = 31
+    Top = 230
+    Width = 94
+    Action = ActOutputSave
+    ParentFont = False
+    TabOrder = 4
+  end
+  object Label6: TLabel
+    Left = 10
+    Height = 20
+    Top = 240
+    Width = 49
+    Caption = 'Output:'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label1: TLabel
+    Left = 10
+    Height = 20
+    Top = 16
+    Width = 94
+    Caption = 'Source Image:'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Edit1: TEdit
+    Left = 125
+    Height = 28
+    Top = 60
+    Width = 100
+    MaxLength = 3
+    NumbersOnly = True
+    ParentFont = False
+    TabOrder = 5
+    Text = '32'
+  end
+  object Label5: TLabel
+    Left = 10
+    Height = 20
+    Top = 60
+    Width = 91
+    Caption = 'Sprite Height:'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Button5: TButton
+    Left = 226
+    Height = 31
+    Top = 229
+    Width = 94
+    Action = ActOutputPalette
+    TabOrder = 6
+  end
+  object ActionList1: TActionList
+    Left = 400
+    Top = 10
+    object ActSourceOpen: TAction
+      Category = 'Source'
+      Caption = 'Open...'
+      OnExecute = ActSourceOpenExecute
+    end
+    object ActSourceClear: TAction
+      Category = 'Source'
+      Caption = 'Clear'
+      Enabled = False
+    end
+    object ActSourceProcess: TAction
+      Category = 'Source'
+      Caption = 'Process'
+      Enabled = False
+      OnExecute = ActSourceProcessExecute
+    end
+    object ActOutputSave: TAction
+      Category = 'Output'
+      Caption = 'Save...'
+      Enabled = False
+      OnExecute = ActOutputSaveExecute
+    end
+    object ActOutputPalette: TAction
+      Category = 'Output'
+      Caption = 'Palette...'
+      OnExecute = ActOutputPaletteExecute
+    end
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = '.bin'
+    Filter = 'VIC-IV Sprite List (*.bin)|*.bin|Any File (*.*)|*.*'
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofExtensionDifferent, ofPathMustExist, ofEnableSizing, ofViewDetail]
+    Left = 400
+    Top = 230
+  end
+  object OpenDialog1: TOpenDialog
+    Title = 'Select Source Image...'
+    DefaultExt = '.png'
+    Filter = 'PNG Images (*.png)|*.png|Bitmap Images (*.bmp)|*.bmp|JPEG Images (*.jpg)|*.jpg|Any File (*.*)|*.*'
+    Options = [ofReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
+    Left = 400
+    Top = 80
+  end
+end

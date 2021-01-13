@@ -10,7 +10,7 @@ uses
 {$IFNDEF FPC}
 	Vcl.Graphics, System.Generics.Collections;
 {$ELSE}
-	Graphics, Generics.Collections;
+	Graphics, Generics.Collections, Generics.Defaults;
 {$ENDIF}
 
 const
@@ -55,6 +55,7 @@ type
 	TRGBPixelArr = array[0..4095] of TRGBPixel;
 
 	TTileRGBData = array[0..VAL_SIZ_TILEPIX_TLRGBD - 1] of Byte;
+	TTileMaskData = array[0..VAL_SIZ_TILEPIX_TLPALD - 1] of Byte;
 	TTilePalData = array[0..VAL_SIZ_TILEPIX_TLPALD - 1] of TPaletteColour;
 	TTilePalDataRaw = array[0..VAL_SIZ_TILEPIX_TLPALD - 1] of Byte;
 	TTilePaletteInfo = array[0..VAL_SIZ_TILEPIX_TLPALD - 1] of TPaletteInfo;
@@ -64,7 +65,14 @@ type
 		Index: Integer;
 		Count: Integer;
 
+        Padding: Boolean;
+        EndMarker: Boolean;
+
+        SegTile: Integer;
+        Segment: Integer;
+
 		RGBData: TTileRGBData;
+		MaskData: TTileMaskData;
 //fixme I should carry this data in processing logic.  I don't.
 		PalData: TTilePalData;
 		Foreground: TPaletteColour;
@@ -72,6 +80,13 @@ type
 	end;
 
 	TTileList = TList<TTile>;
+
+    { TTileSort }
+
+    TTileSort = class(TComparer<TTile>)
+    public
+      function Compare(constref ALeft, ARight: TTile): Integer; override;
+    end;
 
     PTileMapCell = ^TTileMapCell;
 	TTileMapCell = record
@@ -90,24 +105,95 @@ type
 	TPaletteEntry = record
 		RGB: TRGBPixel;
 //		Tiles: TTileList;
+        Count: Integer;
 	end;
 
+    PPaletteMap = ^TPaletteMap;
 	TPaletteMap = array of TPaletteEntry;
 
+//  254 bytes + 2 bytes sector pointer is one disk sector.
 	TV4TImgHeader = packed record
-		Magic: array[0..3] of AnsiChar;
-		Version: Word;
-		Format: Byte;
-		TileCount: Word;
-		ColCount: Byte;
-		RowCount: Byte;
-		HorzRes: Word;
-		VertRes: Word;
-		_Padding: array[0..48] of Byte;
+		Magic: array[0..3] of AnsiChar;             //0
+		Version: Word;                              //4
+		Mode: Byte;                                 //5
+        Reserved0: Byte;                            //6
+		ColCount: Byte;                             //7
+		RowCount: Byte;                             //8
+        LoadBufferAddr: Cardinal;                   //9
+        ScreenRAMAddr: Cardinal;                    //13    0
+        ColourRAMAddr: Cardinal;                    //17    4
+        PaletteAddr: Cardinal;                      //21    8
+        PaletteBank: Byte;                          //25    12
+        PaletteCount: Byte;                         //26    13
+        PaletteOffset: Byte;                        //27    14
+        TileCounts: array[0..191] of Byte;          //28    15
+        RelocSource: Cardinal;
+        RelocDest: Cardinal;
+        RelocSize: Word;
+        Reserved1: array[0..22] of Byte;
 	end;
 
 
-function  ComputeTileMD5(AData: TTileRGBData; var AMD5: TMD5): Boolean;
+    TMemAddress = $00000..$2FFFF;
+
+    TMemModKind = (mmkFree, mmkSystem, mmkSysColourRAM, mmkScreenRAM,
+            mmkColourRAM, mmkPalette, mmkBuffer, mmkReserved, mmkUnavailable,
+            mmkRelocSource, mmkRelocDest);
+    TMemModKinds = set of TMemModKind;
+
+    TMemModule = record
+        Name: string;
+        Kind:  TMemModKind;
+        Start: TMemAddress;
+        Segments: Word;
+    end;
+
+    TMemMapTiles = record
+        Segment: Integer;
+        Count: Integer;
+    end;
+
+    TMemModuleSegs = array[0..191] of TMemModule;
+    TMemTileSegs = array[0..191] of TMemMapTiles;
+
+const
+    VAL_SZE_MEMMOD_SEG = $0400;
+
+    REC_MEMMOD_SYSTEMLO: TMemModule = (
+            Name: 'System Lo'; Kind: mmkSystem;
+            Start: $00000; Segments: 1);
+    REC_MEMMOD_SYSTEMHI: TMemModule = (
+            Name: 'System Hi'; Kind: mmkSystem;
+            Start: $0FC00; Segments: 1);
+    REC_MEMMOD_SYSTEMIO: TMemModule = (
+            Name: 'System IO'; Kind: mmkSystem;
+            Start: $0D000; Segments: 4);
+    REC_MEMMOD_SYSCLRRM: TMemModule = (
+            Name: 'System Colour RAM'; Kind: mmkSysColourRAM;
+            Start: $1F800; Segments: 2);
+    REC_MEMMOD_SCREENRM: TMemModule = (
+            Name: 'Screen RAM'; Kind: mmkScreenRAM;
+            Start: $02000; Segments: 2);
+    REC_MEMMOD_LDBUFFER: TMemModule = (
+            Name: 'Load Buffer'; Kind: mmkBuffer;
+            Start: $01800; Segments: 2);
+
+    LIT_TOK_MEMMOD_CLR = 'Colour RAM';
+    LIT_TOK_MEMMOD_RSV = 'Reserved';
+    LIT_TOK_MEMMOD_FRE = 'Free';
+    LIT_TOK_MEMMOD_PAL = 'Palette Buffer';
+    LIT_TOK_MEMMOD_UNV = 'Unavailable to Tiles';
+    LIT_TOK_MEMMOD_RLS = 'Relocation Source';
+    LIT_TOK_MEMMOD_RLD = 'Relocation Destination';
+
+
+
+//dengland
+//      What on earth was I doing with the Mask?  I cannot remember.
+function  ComputeTileMD5(AData: TTileRGBData; {AMask: TTileMaskData;}
+		var AMD5: TMD5): Boolean;
+
+procedure SortPaletteMap(var APalette: TPaletteMap);
 
 
 implementation
@@ -153,6 +239,15 @@ procedure PUT_UINT32(val: Cardinal; base: PByte; offs: Integer); inline;
 	begin
 	WRITE_LE_UINT32(base + offs, val);
 	end;
+
+{ TTileSort }
+
+function TTileSort.Compare(constref ALeft, ARight: TTile): Integer;
+    begin
+    Result:= ALeft.Segment - ARight.Segment;
+    if  Result = 0 then
+        Result:= ALeft.SegTile - ARight.SegTile;
+    end;
 
 
 procedure TMD5Context.Finish(var AMD5: TMD5);
@@ -394,7 +489,8 @@ procedure TMD5Context.Update(ABuf: PByte; ACount: Cardinal);
 		Move(input^, FBuffer[left], len);
 	end;
 
-function  ComputeTileMD5(AData: TTileRGBData; var AMD5: TMD5): Boolean;
+function  ComputeTileMD5(AData: TTileRGBData; {AMask: TTileMaskData;}
+		var AMD5: TMD5): Boolean;
 	var
 	ctx: TMD5Context;
 	i: Integer;
@@ -423,7 +519,10 @@ function  ComputeTileMD5(AData: TTileRGBData; var AMD5: TMD5): Boolean;
 //	while i > 0 do
 //		begin
 //		ctx.Update(@buf[0], i);
-		ctx.Update(@AData[0], i);
+	ctx.Update(@AData[0], i);
+
+	//i:= SizeOf(TTileMaskData);
+	//ctx.Update(@AMask[0], i);
 
 //		if  restricted then
 //			begin
@@ -442,5 +541,73 @@ function  ComputeTileMD5(AData: TTileRGBData; var AMD5: TMD5): Boolean;
 	Result:= True;
 	end;
 
+function ComparePalette(var APalette: TPaletteMap; L, R: Integer): Integer;
+    begin
+//  descending
+    Result:= APalette[R].Count - APalette[L].Count;
+    end;
+
+procedure ExchangePaletteProc(var APalette: TPaletteMap; L, R: Integer);
+    var
+    temp: TPaletteEntry;
+
+    begin
+    temp:= APalette[L];
+    APalette[L]:= APalette[R];
+    APalette[R]:= temp;
+    end;
+
+
+procedure QuickSortPalette(var APalette: TPaletteMap; L, R: Integer);
+    var
+    Pivot,
+    vL,
+    vR: Integer;
+
+    begin
+//  a little bit of time saver
+    if  R - L <= 1 then
+        begin
+        if L < R then
+            if  ComparePalette(APalette, L, R) > 0 then
+                ExchangePaletteProc(APalette, L, R);
+
+        Exit;
+        end;
+
+    vL:= L;
+    vR:= R;
+
+//  they say random is best
+    Pivot:= L + Random(R - L);
+
+    while vL < vR do
+        begin
+        while (vL < Pivot) and (ComparePalette(APalette, vL, Pivot) <= 0) do
+            Inc(vL);
+
+        while (vR > Pivot) and (ComparePalette(APalette, vR, Pivot) > 0) do
+            Dec(vR);
+
+        ExchangePaletteProc(APalette, vL, vR);
+
+//      swap pivot if we just hit it from one side
+        if  Pivot = vL then
+            Pivot := vR
+        else if Pivot = vR then
+            Pivot := vL;
+        end;
+
+    if  Pivot - 1 >= L then
+        QuickSortPalette(APalette, L, Pivot - 1);
+    if  Pivot + 1 <= R then
+        QuickSortPalette(APalette, Pivot + 1, R);
+    end;
+
+
+procedure SortPaletteMap(var APalette: TPaletteMap);
+    begin
+    QuickSortPalette(APalette, 0, Length(APalette) - 1);
+    end;
 
 end.

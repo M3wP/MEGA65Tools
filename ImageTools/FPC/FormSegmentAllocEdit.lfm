@@ -1,0 +1,179 @@
+object SegmentAllocEditForm: TSegmentAllocEditForm
+  Left = 537
+  Height = 547
+  Top = 148
+  Width = 684
+  BorderIcons = []
+  BorderStyle = bsDialog
+  Caption = 'Segment Mapping'
+  ClientHeight = 547
+  ClientWidth = 684
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  Position = poMainFormCenter
+  LCLVersion = '1.8.0.3'
+  object VirtualStringTree1: TVirtualStringTree
+    Left = 8
+    Height = 503
+    Top = 32
+    Width = 328
+    Anchors = [akTop, akLeft, akBottom]
+    DefaultText = 'Node'
+    Header.AutoSizeIndex = 0
+    Header.Columns = <    
+      item
+        Position = 0
+        Text = 'Address'
+        Width = 100
+      end    
+      item
+        Position = 1
+        Text = 'Utilisation'
+        Width = 200
+      end>
+    Header.Options = [hoVisible]
+    Header.Style = hsPlates
+    TabOrder = 0
+    TreeOptions.MiscOptions = [toAcceptOLEDrop, toFullRepaintOnResize, toGridExtensions, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning, toEditOnClick]
+    TreeOptions.PaintOptions = [toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toFullVertGridLines]
+    TreeOptions.SelectionOptions = [toFullRowSelect]
+    OnGetText = VirtualStringTree1GetText
+    OnKeyPress = VirtualStringTree1KeyPress
+  end
+  object Label1: TLabel
+    Left = 8
+    Height = 15
+    Top = 8
+    Width = 75
+    Caption = 'Memory Map:'
+    ParentColor = False
+  end
+  object Button1: TButton
+    Left = 352
+    Height = 25
+    Top = 32
+    Width = 323
+    Caption = 'Reserve Standard BASIC Program Area'
+    OnClick = Button1Click
+    TabOrder = 1
+  end
+  object Button2: TButton
+    Left = 352
+    Height = 25
+    Top = 64
+    Width = 323
+    Caption = 'Reserve $0C000-$0CFFF ML Data Area'
+    OnClick = Button2Click
+    TabOrder = 2
+  end
+  object Button3: TButton
+    Left = 352
+    Height = 25
+    Top = 144
+    Width = 323
+    Caption = 'Free All Usable Memory Areas'
+    OnClick = Button3Click
+    TabOrder = 3
+  end
+  object Button4: TButton
+    Left = 352
+    Height = 25
+    Top = 192
+    Width = 323
+    Caption = 'Free Selected (F)'
+    OnClick = Button4Click
+    TabOrder = 4
+  end
+  object Button5: TButton
+    Left = 352
+    Height = 25
+    Top = 224
+    Width = 323
+    Caption = 'Reserve Selected (R)'
+    OnClick = Button5Click
+    TabOrder = 5
+  end
+  object Button6: TButton
+    Left = 352
+    Height = 25
+    Top = 256
+    Width = 323
+    Caption = 'Move Screen RAM (S)'
+    OnClick = Button6Click
+    TabOrder = 6
+  end
+  object Button7: TButton
+    Left = 352
+    Height = 25
+    Top = 352
+    Width = 323
+    Caption = 'Move Load Buffer (B)'
+    OnClick = Button7Click
+    TabOrder = 7
+  end
+  object Button8: TButton
+    Left = 352
+    Height = 25
+    Top = 96
+    Width = 323
+    Caption = 'Reserve C65 DOS Area ($10000-$11FFF)'
+    OnClick = Button8Click
+    TabOrder = 8
+  end
+  object Button9: TButton
+    Left = 352
+    Height = 25
+    Top = 288
+    Width = 323
+    Caption = 'Move Colour RAM (C)'
+    OnClick = Button9Click
+    TabOrder = 9
+  end
+  object Button10: TButton
+    Left = 352
+    Height = 25
+    Top = 480
+    Width = 323
+    Caption = 'Done'
+    OnClick = Button10Click
+    TabOrder = 10
+  end
+  object Button11: TButton
+    Left = 352
+    Height = 25
+    Top = 512
+    Width = 323
+    Cancel = True
+    Caption = 'Cancel'
+    ModalResult = 2
+    OnClick = Button11Click
+    TabOrder = 11
+  end
+  object Button12: TButton
+    Left = 352
+    Height = 25
+    Top = 320
+    Width = 323
+    Caption = 'Move Palette Buffer (P)'
+    OnClick = Button12Click
+    TabOrder = 12
+  end
+  object Button14: TButton
+    Left = 352
+    Height = 25
+    Top = 400
+    Width = 323
+    Caption = 'Set Selected as Relocation Source (L)'
+    OnClick = Button14Click
+    TabOrder = 13
+  end
+  object Button15: TButton
+    Left = 352
+    Height = 25
+    Top = 432
+    Width = 323
+    Caption = 'Set Selected as Relocation Destination (D)'
+    OnClick = Button15Click
+    TabOrder = 14
+  end
+end
